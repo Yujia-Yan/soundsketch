@@ -12,12 +12,12 @@ Brush brush=new Brush();
   private float[] right;
   float partialCount;
   int sampleRate;
-  PitchDetectorHPS pitch;
-  WaveformRenderer(PitchDetectorHPS pitch,int sampleRate)
+  SpecturmFeature feature;
+  WaveformRenderer(SpecturmFeature feature,int sampleRate)
   {
     left = null;
     right = null;
-    this.pitch=pitch;
+    this.feature=feature;
     this.sampleRate=sampleRate;
   }
   
@@ -28,8 +28,8 @@ Brush brush=new Brush();
   synchronized void samples(float[] sampL, float[] sampR)
   {
     
-   
-    freq=freq*0.2+0.8*pitch.detect(sampL);
+     feature.setFrame(sampL);
+    freq=freq*0.2+0.8*feature.pitchDetect();
    
     //println(freq);
     left = sampL;
@@ -47,7 +47,7 @@ Brush brush=new Brush();
      {
        if(abs(left[i])>m)m=abs(left[i]);
      }
-     if(m<0.001)return;
+     if(m<0.01)return;
      // noFill();
       stroke(0);
       float tmp=0;
@@ -68,14 +68,16 @@ Brush brush=new Brush();
         
       }
       float p=(12*log(freq/440)+69);
+      
       float l=10*log(m*m/1e-12)*log(2)/log(10);
-      l=norm(l,50,90);
-      p=norm(p,45,80);
+      l=norm(l,40,90);
+      p=norm(p,30,80);
       brush.pull(l*width,height-height*p,1);
       //ellipse(l*width,height-height*p,5,5);
       //println(height*p);
       brush.draw();
-      
+      feature.centroid();
+      feature.ZCR();
     }
   }
   
