@@ -7,12 +7,15 @@ class SpecturmFeature{
   int fftLength;
   float[][] step;
   float[] frame;
+  float maxfrequency;
   void setFrame(float[] frame){
     this.frame=frame;
     fft.forward(frame);
   }
   SpecturmFeature(int fftLength,int sampleRate,int harmonicSize){
     fft=new FFT(fftLength,sampleRate);
+    maxfrequency=fft.specSize()*fft.getBandWidth();
+
     this.fftLength=fftLength;
     this.sampleRate=sampleRate;
     this.binLength=fft.specSize();
@@ -70,11 +73,13 @@ class SpecturmFeature{
     float aSum=0;
      for(int i=1;i<binLength;i++){
         
-          wSum+=(i-sc)*(i-sc)*fft.getBand(i);
+          wSum+=((i-sc)*(i-sc))*fft.getBand(i);
           aSum+=fft.getBand(i);
      }
      //println((wSum/aSum)*fft.getBandWidth());
-     return wSum/aSum*fft.getBandWidth()*fft.getBandWidth();
+     float result=wSum/aSum*fft.getBandWidth()*fft.getBandWidth()/binLength/binLength/binLength;
+    // println(result);
+     return result;
      
   }
   
@@ -95,13 +100,14 @@ class SpecturmFeature{
   }
   float flatness(){
     //stub?unit
-    float product=1;
+    float logsum=0;
     float sum=0;
      for(int i=1;i<binLength;i++){
-      product*= fft.getBand(i);
+      logsum+=log( fft.getBand(i));
       sum+=fft.getBand(i);
      }
-     float result=pow( product,1/binLength)/sum*binLength;
+     float result=exp(logsum/binLength)/sum*binLength;
+     //println(result);
      return result;
   }
   float mel2freq(float freq){
@@ -119,14 +125,14 @@ class SpecturmFeature{
   }
   float[] melFilterCenter;
   void setMelFilterAmount(int melFilterAmount){
-    float maxFreq=fft.specSize()*fft.getBandWidth;
-    int maxMel=freq2mel(maxFreq);
+    int maxMel=ceil(freq2mel(maxfrequency));
     if(melFilterCenter!=null&&melFilterCenter.length!=melFilterAmount){
       melFilterCenter=new float[melFilterAmount];
       for(int i=0;i<melFilterCenter.length;i++){
-          melFilterCenter[i]=mel2freq(i*)
+         // melFilterCenter[i]=mel2freq(i*)
       }
     }
+    
     
   }
 

@@ -35,10 +35,15 @@ Brush brush=new Brush();
     left = sampL;
     right = sampR;
   }
-  
+  float maxH=0;
+  float maxS=0;
+  float maxB=0;
+    float minH=300;
+  float minS=300;
+  float minB=300;
   synchronized void draw()
   {
-
+  
       float m=0;
     // we've got a stereo signal if right or left are not null
     if ( left != null && right != null )
@@ -47,7 +52,10 @@ Brush brush=new Brush();
      {
        if(abs(left[i])>m)m=abs(left[i]);
      }
-     if(m<0.01)return;
+     if(m<0.01){
+     //brush.pull(0,0,0.3);
+     return;
+   }
      // noFill();
       stroke(0);
       float tmp=0;
@@ -70,14 +78,27 @@ Brush brush=new Brush();
       float p=(12*log(freq/440)+69);
       
       float l=10*log(m*m/1e-12)*log(2)/log(10);
-      l=norm(l,40,90);
-      p=norm(p,30,80);
+      l=norm(l,50,90);
+      p=norm(p,20,70);
       brush.pull(l*width,height-height*p,1);
-      //ellipse(l*width,height-height*p,5,5);
+     // ellipse(l*width,height-height*p,5,5);
       //println(height*p);
-      brush.draw();
-      feature.centroid();
-      feature.ZCR();
+      float H=sqrt(feature.spread())*360;
+      float S=feature.flatness();
+      float B=feature.centroid()/feature.maxfrequency;
+      if(H>maxH)maxH=H;
+      if(S>maxS)maxS=S;
+      if(B>maxB)maxB=B;
+       if(H<minH)minH=H;
+      if(S<minS)minS=S;
+      if(B<minB)minB=B;
+      H=(H)%360;
+      S=(S*2);
+      B=(B*2);
+      //println(m);
+      brush.draw(H,S,B,m);
+     // println(maxH+"   "+maxS+"   "+ maxB);
+      // println(minH+"   "+minS+"   "+ minB);
     }
   }
   
