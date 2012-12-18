@@ -77,7 +77,7 @@ Brush brush=new Brush();
       }
       float p=(12*log(freq/440)+69);
       
-      float l=10*log(m*m/1e-12)*log(2)/log(10);
+      float l=10*log(feature.power()/1e-12)*log(2)/log(10);
       l=norm(l,50,90);
       p=norm(p,20,70);
       brush.pull(l*width,height-height*p,1);

@@ -231,12 +231,12 @@ class SpecturmFeature{
     // println( (float)zeros/2/frame.length);
      return (float)zeros/2/frame.length;
   }
-  public float RMS(){
+  public float power(){
     float power=0;
      for(int i=0;i<frame.length;i++){
        power+=frame[i]*frame[i];
      }
-     return power/frame.length;
+     return (power/frame.length);
   }
   public float flatness(){
     //stub?unit
@@ -263,18 +263,7 @@ class SpecturmFeature{
      }
      return result;
   }
-  float[] melFilterCenter;
-  public void setMelFilterAmount(int melFilterAmount){
-    int maxMel=ceil(freq2mel(maxfrequency));
-    if(melFilterCenter!=null&&melFilterCenter.length!=melFilterAmount){
-      melFilterCenter=new float[melFilterAmount];
-      for(int i=0;i<melFilterCenter.length;i++){
-         // melFilterCenter[i]=mel2freq(i*)
-      }
-    }
-    
-    
-  }
+
 
  
 }
@@ -358,7 +347,7 @@ Brush brush=new Brush();
       }
       float p=(12*log(freq/440)+69);
       
-      float l=10*log(m*m/1e-12f)*log(2)/log(10);
+      float l=10*log(feature.power()/1e-12f)*log(2)/log(10);
       l=norm(l,50,90);
       p=norm(p,20,70);
       brush.pull(l*width,height-height*p,1);

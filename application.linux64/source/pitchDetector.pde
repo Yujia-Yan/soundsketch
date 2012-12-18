@@ -91,12 +91,12 @@ class SpecturmFeature{
     // println( (float)zeros/2/frame.length);
      return (float)zeros/2/frame.length;
   }
-  float RMS(){
+  float power(){
     float power=0;
      for(int i=0;i<frame.length;i++){
        power+=frame[i]*frame[i];
      }
-     return power/frame.length;
+     return (power/frame.length);
   }
   float flatness(){
     //stub?unit
@@ -123,18 +123,7 @@ class SpecturmFeature{
      }
      return result;
   }
-  float[] melFilterCenter;
-  void setMelFilterAmount(int melFilterAmount){
-    int maxMel=ceil(freq2mel(maxfrequency));
-    if(melFilterCenter!=null&&melFilterCenter.length!=melFilterAmount){
-      melFilterCenter=new float[melFilterAmount];
-      for(int i=0;i<melFilterCenter.length;i++){
-         // melFilterCenter[i]=mel2freq(i*)
-      }
-    }
-    
-    
-  }
+
 
  
 }
