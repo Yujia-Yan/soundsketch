@@ -1,5 +1,5 @@
 class SpecturmFeature{
-  
+  // some features need to be converted to dB scale
   FFT fft;
   int sampleRate;
   int binLength;
@@ -64,6 +64,20 @@ class SpecturmFeature{
      //println((wSum/aSum)*fft.getBandWidth());
      return wSum/aSum*fft.getBandWidth();
   }
+  float spread(){
+    float sc=centroid()/fft.getBandWidth();
+     float wSum=0;
+    float aSum=0;
+     for(int i=1;i<binLength;i++){
+        
+          wSum+=(i-sc)*(i-sc)*fft.getBand(i);
+          aSum+=fft.getBand(i);
+     }
+     //println((wSum/aSum)*fft.getBandWidth());
+     return wSum/aSum*fft.getBandWidth()*fft.getBandWidth();
+     
+  }
+  
   float ZCR(){
     int zeros=0;
      for(int i=0;i<frame.length-1;i++){
@@ -80,12 +94,16 @@ class SpecturmFeature{
      return power/frame.length;
   }
   float flatness(){
-    //stub
+    //stub?unit
+    float product=1;
+    float sum=0;
      for(int i=1;i<binLength;i++){
-       fft.getBand(i);
+      product*= fft.getBand(i);
+      sum+=fft.getBand(i);
      }
-     return 0;
+     float result=pow( product,1/binLength)/sum*binLength;
+     return result;
   }
-
+ 
 }
 
