@@ -10,13 +10,14 @@ particle=new Particle[500];
     particle[i].setV(random(0,100),random(0,100),0);
   }
 }
-  void draw(){
-    stroke(255, 255, 255, 5);
+  void draw(float H,float S,float B,float m){
+   // colorMode(HSB, 360, 1, 1);
+    stroke(255,255,255,5);
   strokeWeight(1);
  // particleM.X+=(0.03*(mouseX-particleM.X));
  // particleM.Y+=(0.03*(mouseY-particleM.Y));
     for(int i=0;i<particle.length;i++){  
-    particle[i].applyForce(0.03*(particleM.X-particle[i].X),0.03*(particleM.Y-particle[i].Y),0);
+    particle[i].applyForce(0.03*m*(particleM.X-particle[i].X),0.03*m*(particleM.Y-particle[i].Y),0);
     particle[i].draw();
     }
   }
