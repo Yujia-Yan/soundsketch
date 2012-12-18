@@ -104,6 +104,32 @@ class SpecturmFeature{
      float result=pow( product,1/binLength)/sum*binLength;
      return result;
   }
+  float mel2freq(float freq){
+    return 1127.01028*log(1+freq/700);
+  }
+  float freq2mel(float mel){
+    return 700*(exp(mel/1127.01028)-1);
+  }
+  float[] Hamming(int n){
+     float[] result=new float[n];
+     for(int i=0;i<n;i++){
+       result[i]=0.5f*(1.0f-cos(2.0f*(float)PI*i/(n-1)));
+     }
+     return result;
+  }
+  float[] melFilterCenter;
+  void setMelFilterAmount(int melFilterAmount){
+    float maxFreq=fft.specSize()*fft.getBandWidth;
+    int maxMel=freq2mel(maxFreq);
+    if(melFilterCenter!=null&&melFilterCenter.length!=melFilterAmount){
+      melFilterCenter=new float[melFilterAmount];
+      for(int i=0;i<melFilterCenter.length;i++){
+          melFilterCenter[i]=mel2freq(i*)
+      }
+    }
+    
+  }
+
  
 }
 
