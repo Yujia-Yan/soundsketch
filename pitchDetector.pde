@@ -25,7 +25,7 @@ class SpecturmFeature{
     for(int i=0;i<harmonicSize;i++){
       step[i]=new float[binLength];
     }
-    //fft.window(fft.HAMMING);
+    fft.window(fft.HAMMING);
   }
   float pitchDetect(){
     //downsample

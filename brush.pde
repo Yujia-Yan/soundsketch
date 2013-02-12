@@ -12,6 +12,7 @@ particle=new Particle[500];
 }
   void draw(float H,float S,float B,float m){
    // colorMode(HSB, 360, 1, 1);
+    //stroke(H,S,B,3);
     stroke(255,255,255,5);
   strokeWeight(1);
  // particleM.X+=(0.03*(mouseX-particleM.X));
@@ -20,6 +21,16 @@ particle=new Particle[500];
     particle[i].applyForce(0.03*m*(particleM.X-particle[i].X),0.03*m*(particleM.Y-particle[i].Y),0);
     particle[i].draw();
     }
+  }
+  void setPosition(float X,float Y){
+    particleM.X=X;
+    particleM.Y=Y;
+  }
+  void applyForce(float X,float Y,float force){
+    particleM.X+=force*(X-width/2)/width;
+    particleM.Y+=force*(Y-height/2)/height;
+    particleM.X=constrain(particleM.X,0,width);
+    particleM.Y=constrain(particleM.Y,0,height);
   }
   void pull(float X,float Y,float force){
     particleM.X+=force*(X-particleM.X);
@@ -33,7 +44,7 @@ class Particle{
   float Vx;
   float Vy;
   float Vz;
-  float damp=0.95;
+  float damp=0.98;
   float M;
   Particle(float X,float Y,float Z,float M){
     this.X=X;

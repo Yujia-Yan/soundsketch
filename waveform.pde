@@ -29,9 +29,8 @@ Brush brush=new Brush();
   {
     
      feature.setFrame(sampL);
-    freq=freq*0.2+0.8*feature.pitchDetect();
-   
-    //println(freq);
+    freq=freq*0.3+0.7*feature.pitchDetect();
+
     left = sampL;
     right = sampR;
   }
@@ -41,6 +40,8 @@ Brush brush=new Brush();
     float minH=300;
   float minS=300;
   float minB=300;
+  float pL=0;
+  float pP=0;
   synchronized void draw()
   {
   
@@ -52,7 +53,7 @@ Brush brush=new Brush();
      {
        if(abs(left[i])>m)m=abs(left[i]);
      }
-     if(m<0.01){
+     if(m<0.03){
      //brush.pull(0,0,0.3);
      return;
    }
@@ -78,9 +79,11 @@ Brush brush=new Brush();
       float p=(12*log(freq/440)+69);
       
       float l=10*log(feature.power()/1e-12)*log(2)/log(10);
-      l=norm(l,50,90);
-      p=norm(p,20,70);
+      l=norm(l,40,85);
+      p=norm(p,20,90);
+     // p=(feature.ZCR()*30);
       brush.pull(l*width,height-height*p,1);
+      //brush.pull(0,0,frameCount/10);
      // ellipse(l*width,height-height*p,5,5);
       //println(height*p);
       float H=sqrt(feature.spread())*360;

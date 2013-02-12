@@ -11,7 +11,7 @@ void setup()
   size(800 , 600);
   minim = new Minim(this);
     in = minim.getLineIn(Minim.STEREO, 1024,44100);
-SpecturmFeature feature=new SpecturmFeature(1024,44100,10);
+SpecturmFeature feature=new SpecturmFeature(1024,44100,3);
  // groove = minim.loadFile("groove.mp3", 512);
  waveform = new WaveformRenderer(feature,8000);
     in.addListener(waveform);
@@ -30,7 +30,7 @@ float scal=0.5;
  }
 void draw()
 {
- // background(0);
+  //background(0);
   
 //ellipse(particleM.X,particleM.Y,5,5);
   waveform.draw();
